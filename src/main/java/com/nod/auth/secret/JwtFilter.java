@@ -54,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     tokenClient = tokenClient.substring(7);
                     if (jwtTokenProvider.validateToken(tokenClient)) {
                         String userIdFromToken = jwtTokenProvider.getUserIdFromToken(tokenClient);
-                        return authService.loadByUserId(Integer.valueOf(userIdFromToken));
+                        return (UserDetails) authService.loadByUserId(Integer.valueOf(userIdFromToken));
                     }
                 }
             }

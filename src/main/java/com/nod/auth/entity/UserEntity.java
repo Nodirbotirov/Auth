@@ -1,5 +1,6 @@
 package com.nod.auth.entity;
 
+import com.nod.auth.entity.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -24,6 +25,8 @@ public class UserEntity {
     private String lastName;
 
     private String password;
+
+    private UserRole role;
 
 
 
