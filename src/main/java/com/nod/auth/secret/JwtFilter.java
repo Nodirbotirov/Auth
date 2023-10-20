@@ -2,6 +2,10 @@ package com.nod.auth.secret;
 
 import com.nod.auth.repository.UserRepository;
 import com.nod.auth.service.UserService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,11 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 
 public class JwtFilter extends OncePerRequestFilter {
@@ -27,9 +28,9 @@ public class JwtFilter extends OncePerRequestFilter {
     PasswordEncoder passwordEncoder;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal( HttpServletRequest httpServletRequest,
+                                     HttpServletResponse httpServletResponse,
+                                     FilterChain filterChain) throws ServletException, IOException {
         UserDetails userDetails = getUserDetails(httpServletRequest);
         if (userDetails != null) {
             if (userDetails.isEnabled()
@@ -54,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     tokenClient = tokenClient.substring(7);
                     if (jwtTokenProvider.validateToken(tokenClient)) {
                         String userIdFromToken = jwtTokenProvider.getUserIdFromToken(tokenClient);
-                        return (UserDetails) authService.loadByUserId(Integer.valueOf(userIdFromToken));
+                        return authService.loadByUserId(Integer.valueOf(userIdFromToken));
                     }
                 }
             }
